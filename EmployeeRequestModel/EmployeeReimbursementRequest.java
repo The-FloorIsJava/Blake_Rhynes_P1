@@ -10,7 +10,7 @@ public class EmployeeReimbursementRequest {
 
         this.name = name;
         this.amount = amount;
-        this.approvalStatus = "pending";
+        this.approvalStatus = approvalStatus;
 
 
     }

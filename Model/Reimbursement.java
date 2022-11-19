@@ -17,7 +17,7 @@ public class Reimbursement {
 
         this.employee = employee;
         this.amount = amount;
-        this.approvalStatus = "pending";
+        this.approvalStatus = approvalStatus;
         this.id = id;
 
 

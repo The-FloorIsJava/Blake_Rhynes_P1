@@ -1,17 +1,22 @@
 package Service;
 
+import EmployeeDao.EmployeeDao;
+
 import java.util.List;
 
 public class EmployeeLogin {
 
-    private EmployeeLogin employeeSession = null;
+    private Model.EmployeeLogin employeeSession = null;
 
-    public EmployeeLogin(){
+    private final EmployeeDao employeeDao;
 
+    public EmployeeLogin(EmployeeDao employeeDao){
+    this.employeeDao = employeeDao;
     }
 
-    public void addEmployee(Model.EmployeeLogin employeeLogin){
+    public Model.EmployeeLogin addEmployee(Model.EmployeeLogin employeeLogin){
 
+        return employeeLogin;
     }
 
     public Model.EmployeeLogin getEmployee(String username){
@@ -20,6 +25,10 @@ public class EmployeeLogin {
 
     public void removeEmployee (String username){
 
+    }
+
+    public void login(String username, String password){
+        employeeSession = employeeDao.loginCheck(username, password); //need to adjust dao
     }
 
     public List<Model.EmployeeLogin> getAllEmployees(){

@@ -1,5 +1,6 @@
 package Controller;
 
+import EmployeeDao.ReimbursementDao;
 import Model.Reimbursement;
 import Service.ReimbursementRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -11,18 +12,20 @@ import java.util.List;
 
 public class ReimbursementController {
     ReimbursementRequest reimbursementRequest;
-    public ReimbursementController(){
-        reimbursementRequest = new ReimbursementRequest();
+
+    Javalin app;
+    public ReimbursementController(Javalin app){
+        reimbursementRequest = new ReimbursementRequest(new ReimbursementDao());
+        this.app = app;
     }
     public void reimbursementEndpoint(Javalin app){
-//        Javalin app = Javalin.create().start(8080);
 
         app.get("hello", this::helloHandler);
-        app.get("reimbursement",this::postReimbursementHandler);
+        app.post("reimbursement",this::postReimbursementHandler);
         app.get("reimbursementRequests",this::getAllReimbursements);
         app.get("reimbursement/{id}",this::getSpecificReimbursement);
-        app.get("idApproval",this::managerApproval);
-        app.get("idDenial",this::managerDenial);
+        app.post("idApproval",this::managerApproval);
+        app.post("idDenial",this::managerDenial);
 
     }
     private void getSpecificReimbursement(Context context) {

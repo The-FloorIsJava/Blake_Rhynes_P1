@@ -1,17 +1,23 @@
 package Service;
 
+import EmployeeDao.ReimbursementDao;
 import Model.Reimbursement;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ReimbursementRequest {
 
+    private final ReimbursementDao reimbursementDao;
+
+    public ReimbursementRequest(ReimbursementDao reimbursementDao){
+        this.reimbursementDao = reimbursementDao;
+    }
+
 List<Reimbursement> reimbursementRequests;
 
-public ReimbursementRequest(){
-    reimbursementRequests = new ArrayList<>();
-}
+//public ReimbursementRequest(){
+//    reimbursementRequests = new ArrayList<>();
+//}
 
 //public void addRequest(String employee, double amount, String approvalStatus, String type, String description , int id){
 //    Reimbursement newReimbursement = new Reimbursement(employee, amount, approvalStatus, type, description, id);
@@ -19,7 +25,7 @@ public ReimbursementRequest(){
 //}
 
     public void addRequest(Reimbursement reimbursement){
-        reimbursementRequests.add(reimbursement);
+        reimbursementDao.create(reimbursement);
     }
 
 
@@ -51,10 +57,7 @@ public void managerApproval(int id) {
     }
 
 public List<Reimbursement> getAllRequests(){
-    return reimbursementRequests;
+    return reimbursementDao.findAll();
 }
-
-
-
 
 }

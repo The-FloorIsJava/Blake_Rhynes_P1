@@ -9,7 +9,7 @@ public class ReimbursementRequestMain {
 
         Javalin app = Javalin.create().start(8080);
 
-        ReimbursementController reimbursementController = new ReimbursementController();
+        ReimbursementController reimbursementController = new ReimbursementController(app);
         reimbursementController.reimbursementEndpoint(app);
 
         new LoginController(app).employeeEndpoint();

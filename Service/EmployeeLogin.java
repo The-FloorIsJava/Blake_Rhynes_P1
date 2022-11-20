@@ -15,8 +15,7 @@ public class EmployeeLogin {
     }
 
     public Model.EmployeeLogin addEmployee(Model.EmployeeLogin employeeLogin){
-
-        return employeeLogin;
+        return employeeDao.create(employeeLogin);
     }
 
     public Model.EmployeeLogin getEmployee(String username){
@@ -27,8 +26,8 @@ public class EmployeeLogin {
 
     }
 
-    public void login(String username, String password){
-        employeeSession = employeeDao.loginCheck(username, password); //need to adjust dao
+    public void login(String employee_role,String username, String password){
+        employeeSession = employeeDao.loginCheck(employee_role,username, password);
     }
 
     public List<Model.EmployeeLogin> getAllEmployees(){
@@ -36,6 +35,10 @@ public class EmployeeLogin {
     }
 
     public void logout(){
+employeeSession = null;
+    }
 
+    public Model.EmployeeLogin getEmployeeSession(){
+        return employeeSession;
     }
 }

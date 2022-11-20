@@ -5,7 +5,9 @@ public class EmployeeLogin {
     private String employee_role;
     private String password;
 
+public EmployeeLogin(){
 
+}
     public EmployeeLogin(String username, String employee_role, String password) {
         this.username = username;
         this.employee_role = employee_role;

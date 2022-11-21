@@ -57,7 +57,9 @@ public void managerApproval(int id) {
     }
 
 public List<Reimbursement> getAllRequests(){
-    return reimbursementDao.findAll();
+
+        return reimbursementDao.findAll();
+//    return reimbursementRequests;
 }
 
 }

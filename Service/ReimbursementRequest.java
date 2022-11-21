@@ -29,14 +29,16 @@ List<Reimbursement> reimbursementRequests;
     }
 
 
-public Reimbursement getReimbursement(String employee){
-    for (int i = 0; i<reimbursementRequests.size(); i++){
-        Reimbursement r = reimbursementRequests.get(i);
-        if(r.employee.equals(employee)){
-            return reimbursementRequests.get(i);
-        }
-    }
-    return null;
+public Reimbursement getReimbursement(int id){
+//    for (int i = 0; i<reimbursementRequests.size(); i++){
+//        Reimbursement r = reimbursementRequests.get(i);
+//        if(r.employee.equals(employee)){
+//            return reimbursementRequests.get(i);
+//        }
+//    }
+
+    return reimbursementDao.findById(id);
+//    return null;
 }
 public void managerApproval(int id) {
     for (int i = 0; i < reimbursementRequests.size(); i++) {

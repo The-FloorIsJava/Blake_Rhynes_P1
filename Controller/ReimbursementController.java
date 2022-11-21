@@ -29,8 +29,8 @@ public class ReimbursementController {
 
     }
     private void getSpecificReimbursement(Context context) {
-        String employee = context.pathParam("employee");
-        Reimbursement reimbursement = reimbursementRequest.getReimbursement(employee);
+        String id = context.pathParam("id");
+        Reimbursement reimbursement = reimbursementRequest.getReimbursement(Integer.parseInt(id));
         context.json(reimbursement);
     }
 

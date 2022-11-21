@@ -69,7 +69,34 @@ public class ReimbursementDao implements Crudable<Reimbursement> {
 
     @Override
     public Reimbursement findById(int id) {
-        return null;
+        try(Connection connection = ConnectionFactory.getConnectionFactory().getConnection()){
+
+            Reimbursement reimbursement = new Reimbursement();
+
+            String sql = "select * from reimbursement_ticket where id  = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1,id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if(!resultSet.next()){
+                throw new RuntimeException("Reimbursement "+ id + " not found");
+            }
+
+            reimbursement.setAmount(resultSet.getDouble("amount"));
+            reimbursement.setApprovalStatus(resultSet.getString("status"));//take a look at the column name
+            reimbursement.setDescription(resultSet.getString("description"));
+            reimbursement.setId(resultSet.getInt("id"));
+            reimbursement.setEmployee(resultSet.getString("employee"));
+
+            return reimbursement;
+
+
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
+
+        }
     }
 
     @Override

@@ -50,7 +50,7 @@ public class ReimbursementDao implements Crudable<Reimbursement> {
             while (resultSet.next()){
                 Reimbursement reimbursement = new Reimbursement();
 
-                reimbursement.setAmount(resultSet.getDouble("id"));
+                reimbursement.setAmount(resultSet.getDouble("amount"));
                 reimbursement.setDescription(resultSet.getString("description"));
                 reimbursement.setApprovalStatus(resultSet.getString("status"));
                 reimbursement.setEmployee(resultSet.getString("employee"));

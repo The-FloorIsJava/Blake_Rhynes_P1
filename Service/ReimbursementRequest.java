@@ -30,15 +30,8 @@ List<Reimbursement> reimbursementRequests;
 
 
 public Reimbursement getReimbursement(int id){
-//    for (int i = 0; i<reimbursementRequests.size(); i++){
-//        Reimbursement r = reimbursementRequests.get(i);
-//        if(r.employee.equals(employee)){
-//            return reimbursementRequests.get(i);
-//        }
-//    }
 
     return reimbursementDao.findById(id);
-//    return null;
 }
 public void managerApproval(int id) {
     for (int i = 0; i < reimbursementRequests.size(); i++) {
@@ -62,6 +55,10 @@ public List<Reimbursement> getAllRequests(){
 
         return reimbursementDao.findAll();
 //    return reimbursementRequests;
+}
+
+public List<Reimbursement> getPendingRequests(){
+        return reimbursementDao.findAllPending();
 }
 
 }

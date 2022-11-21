@@ -108,4 +108,34 @@ public class ReimbursementDao implements Crudable<Reimbursement> {
     public boolean delete(int id) {
         return false;
     }
+
+    public List<Reimbursement> findAllPending() {
+
+        try(Connection connection = ConnectionFactory.getConnectionFactory().getConnection()){
+
+            List<Reimbursement> reimbursements = new ArrayList<>();
+
+            String sql = "select * from reimbursement_ticket where status = 'pending'";
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            while (resultSet.next()){
+                Reimbursement reimbursement = new Reimbursement();
+
+                reimbursement.setId(resultSet.getInt("id"));
+                reimbursement.setAmount(resultSet.getDouble("amount"));
+                reimbursement.setDescription(resultSet.getString("description"));
+                reimbursement.setApprovalStatus(resultSet.getString("status"));
+                reimbursement.setEmployee(resultSet.getString("employee"));
+
+                reimbursements.add(reimbursement);
+
+            }
+            return reimbursements;
+
+        }catch(SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

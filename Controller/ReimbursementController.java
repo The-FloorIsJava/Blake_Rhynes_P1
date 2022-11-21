@@ -26,6 +26,7 @@ public class ReimbursementController {
         app.get("reimbursement/{id}",this::getSpecificReimbursement);
         app.post("idApproval",this::managerApproval);
         app.post("idDenial",this::managerDenial);
+        app.get("getPending",this::getPendingRequests);
 
     }
     private void getSpecificReimbursement(Context context) {
@@ -38,6 +39,11 @@ public class ReimbursementController {
         List<Reimbursement> allRequests = reimbursementRequest.getAllRequests();
 //        similar as context.result, but the content type is json rather than text.
         context.json(allRequests);
+    }
+    private void getPendingRequests(Context context) {
+        List<Reimbursement> allPendingRequests = reimbursementRequest.getPendingRequests();
+//        similar as context.result, but the content type is json rather than text.
+        context.json(allPendingRequests);
     }
 
     private void postReimbursementHandler(Context context) throws JsonProcessingException {

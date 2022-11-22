@@ -33,22 +33,28 @@ public Reimbursement getReimbursement(int id){
 
     return reimbursementDao.findById(id);
 }
-public void managerApproval(int id) {
-    for (int i = 0; i < reimbursementRequests.size(); i++) {
-        Reimbursement r = reimbursementRequests.get(i);
-        if (r.getId() == (id)) {
-            r.setApprovalStatus("Approved");
-        }
+//public void managerApproval(int id) {
+//    for (int i = 0; i < reimbursementRequests.size(); i++) {
+//        Reimbursement r = reimbursementRequests.get(i);
+//        if (r.getId() == (id)) {
+//            r.setApprovalStatus("Approved");
+//        }
+//    }
+//}
+    public Reimbursement managerApproval(int id) {
+        return reimbursementDao.Approve(id);
     }
-}
 
-    public void managerDenial(int id) {
-        for (int i = 0; i < reimbursementRequests.size(); i++) {
-            Reimbursement r = reimbursementRequests.get(i);
-            if (r.getId() == (id)) {
-                r.setApprovalStatus("Denied");
-            }
-        }
+//    public void managerDenial(int id) {
+//        for (int i = 0; i < reimbursementRequests.size(); i++) {
+//            Reimbursement r = reimbursementRequests.get(i);
+//            if (r.getId() == (id)) {
+//                r.setApprovalStatus("Denied");
+//            }
+//        }
+//    }
+    public Reimbursement managerDenial(int id) {
+        return reimbursementDao.Deny(id);
     }
 
 public List<Reimbursement> getAllRequests(){

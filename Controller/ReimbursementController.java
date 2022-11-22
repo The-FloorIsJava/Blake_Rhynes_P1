@@ -24,8 +24,8 @@ public class ReimbursementController {
         app.post("reimbursement",this::postReimbursementHandler);
         app.get("reimbursementRequests",this::getAllReimbursements);
         app.get("reimbursement/{id}",this::getSpecificReimbursement);
-        app.post("idApproval",this::managerApproval);
-        app.post("idDenial",this::managerDenial);
+        app.post("idApproval/{id}",this::managerApproval);
+        app.post("idDenial/{id}",this::managerDenial);
         app.get("getPending",this::getPendingRequests);
 
     }
@@ -34,6 +34,30 @@ public class ReimbursementController {
         Reimbursement reimbursement = reimbursementRequest.getReimbursement(Integer.parseInt(id));
         context.json(reimbursement);
     }
+    private void managerApproval(Context context){
+        String id = context.pathParam("id");
+        reimbursementRequest.managerApproval(Integer.parseInt(id));
+        Reimbursement reimbursement = reimbursementRequest.getReimbursement(Integer.parseInt(id));
+        context.json(reimbursement);
+    }
+    private void managerDenial(Context context){
+        String id = context.pathParam("id");
+        reimbursementRequest.managerDenial(Integer.parseInt(id));
+        Reimbursement reimbursement = reimbursementRequest.getReimbursement(Integer.parseInt(id));
+        context.json(reimbursement);
+    }
+//    private void managerApproval(Context context) throws JsonProcessingException{
+//        ObjectMapper mapper = new ObjectMapper();
+//        Reimbursement reimbursement = mapper.readValue(context.body(), Reimbursement.class);
+//        reimbursementRequest.managerApproval(reimbursement.getId());
+//        context.json(reimbursement);
+//    }
+//    private void managerDenial(Context context)throws JsonProcessingException{
+//        ObjectMapper mapper = new ObjectMapper();
+//        Reimbursement reimbursement = mapper.readValue(context.body(), Reimbursement.class);
+//        reimbursementRequest.managerDenial(reimbursement.getId());
+//        context.json(reimbursement);
+//    }
 
     private void getAllReimbursements(Context context) {
         List<Reimbursement> allRequests = reimbursementRequest.getAllRequests();
@@ -53,18 +77,7 @@ public class ReimbursementController {
         context.json(reimbursement);
     }
 
-    private void managerApproval(Context context) throws JsonProcessingException{
-        ObjectMapper mapper = new ObjectMapper();
-        Reimbursement reimbursement = mapper.readValue(context.body(), Reimbursement.class);
-        reimbursementRequest.managerApproval(reimbursement.getId());
-        context.json(reimbursement);
-    }
-    private void managerDenial(Context context)throws JsonProcessingException{
-        ObjectMapper mapper = new ObjectMapper();
-        Reimbursement reimbursement = mapper.readValue(context.body(), Reimbursement.class);
-        reimbursementRequest.managerDenial(reimbursement.getId());
-        context.json(reimbursement);
-    }
+
 
     public void helloHandler(Context ctx){
         ctx.result("hello from the menu");

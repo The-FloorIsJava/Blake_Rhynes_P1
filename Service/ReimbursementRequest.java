@@ -36,7 +36,7 @@ public Reimbursement getReimbursement(int id){
 public void managerApproval(int id) {
     for (int i = 0; i < reimbursementRequests.size(); i++) {
         Reimbursement r = reimbursementRequests.get(i);
-        if (r.id == (id)) {
+        if (r.getId() == (id)) {
             r.setApprovalStatus("Approved");
         }
     }
@@ -45,7 +45,7 @@ public void managerApproval(int id) {
     public void managerDenial(int id) {
         for (int i = 0; i < reimbursementRequests.size(); i++) {
             Reimbursement r = reimbursementRequests.get(i);
-            if (r.id == (id)) {
+            if (r.getId() == (id)) {
                 r.setApprovalStatus("Denied");
             }
         }

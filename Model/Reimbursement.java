@@ -10,7 +10,7 @@ public class Reimbursement {
 
 
 
-    public int id;
+    private int id;
 
 
     private String description;

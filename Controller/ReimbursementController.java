@@ -56,13 +56,13 @@ public class ReimbursementController {
     private void managerApproval(Context context) throws JsonProcessingException{
         ObjectMapper mapper = new ObjectMapper();
         Reimbursement reimbursement = mapper.readValue(context.body(), Reimbursement.class);
-        reimbursementRequest.managerApproval(reimbursement.id);
+        reimbursementRequest.managerApproval(reimbursement.getId());
         context.json(reimbursement);
     }
     private void managerDenial(Context context)throws JsonProcessingException{
         ObjectMapper mapper = new ObjectMapper();
         Reimbursement reimbursement = mapper.readValue(context.body(), Reimbursement.class);
-        reimbursementRequest.managerDenial(reimbursement.id);
+        reimbursementRequest.managerDenial(reimbursement.getId());
         context.json(reimbursement);
     }
 

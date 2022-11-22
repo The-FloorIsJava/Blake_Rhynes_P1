@@ -2,6 +2,8 @@ package Service;
 
 import EmployeeDao.EmployeeDao;
 
+import java.util.List;
+
 public class EmployeeLogin {
 
     private Model.EmployeeLogin employeeSession = null;
@@ -15,7 +17,14 @@ public class EmployeeLogin {
     public Model.EmployeeLogin addEmployee(Model.EmployeeLogin employeeLogin){
         return employeeDao.create(employeeLogin);
     }
+    public Model.EmployeeLogin addStandardEmployee(Model.EmployeeLogin employeeLogin){
+        return employeeDao.createEmployee(employeeLogin);
+    }
 
+
+    public List<Model.EmployeeLogin> getAllEmployeess(){
+        return employeeDao.findAll();
+    }
     public Model.EmployeeLogin getEmployee(String username){
         return null;
     }

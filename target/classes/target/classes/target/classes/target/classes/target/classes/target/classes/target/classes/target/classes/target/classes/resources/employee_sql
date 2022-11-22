@@ -1,8 +1,5 @@
-drop table login_information cascade;
-drop table reimbursement_ticket cascade;
-select * from login_information;
-select * from reimbursement_ticket;
-
+--drop table login_information cascade;
+--drop table reimbursement_ticket cascade;
 
 Create table login_information (employee_role varchar(255),
 username varchar(255) Primary Key,
@@ -12,6 +9,6 @@ password varchar(255)
 create table reimbursement_ticket (id serial unique primary key,
 amount numeric,
 description varchar(255),
-status varchar(255) default 'pending',
+status varchar(255),
 employee varchar(255), foreign key(employee)references login_information(username)
 );

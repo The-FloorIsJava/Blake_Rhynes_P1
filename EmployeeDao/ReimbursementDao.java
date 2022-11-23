@@ -8,7 +8,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class ReimbursementDao implements Crudable<Reimbursement> {
+//    EmployeeLogin eLogin = new EmployeeLogin();
 
 
     @Override
@@ -98,40 +101,44 @@ public class ReimbursementDao implements Crudable<Reimbursement> {
 
         }
     }
-    public Reimbursement Approve(int id) {
-        try(Connection connection = ConnectionFactory.getConnectionFactory().getConnection()){
+    public Reimbursement Approve(int id){
 
-            Reimbursement reimbursement = new Reimbursement();
 
-            String sql = "Update reimbursement_ticket set status = 'approved' where id  = ?;" +
-                    "select * from reimbursement_ticket where id = ?;";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setInt(1,id);
-            preparedStatement.setInt(2,id);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            try (Connection connection = ConnectionFactory.getConnectionFactory().getConnection()) {
 
-            if(!resultSet.next()){
-                throw new RuntimeException("Reimbursement "+ id + " not found");
+                Reimbursement reimbursement = new Reimbursement();
+
+                String sql = "Update reimbursement_ticket set status = 'approved' where id  = ?;" +
+                        "select * from reimbursement_ticket where id = ?;";
+                PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+                preparedStatement.setInt(1, id);
+                preparedStatement.setInt(2, id);
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                if (!resultSet.next()) {
+                    throw new RuntimeException("Reimbursement " + id + " not found");
+                }
+
+                reimbursement.setAmount(resultSet.getDouble("amount"));
+                reimbursement.setApprovalStatus(resultSet.getString("status"));
+                reimbursement.setDescription(resultSet.getString("description"));
+                reimbursement.setId(resultSet.getInt("id"));
+                reimbursement.setEmployee(resultSet.getString("employee"));
+
+                return reimbursement;
+
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return null;
+
             }
-
-            reimbursement.setAmount(resultSet.getDouble("amount"));
-            reimbursement.setApprovalStatus(resultSet.getString("status"));
-            reimbursement.setDescription(resultSet.getString("description"));
-            reimbursement.setId(resultSet.getInt("id"));
-            reimbursement.setEmployee(resultSet.getString("employee"));
-
-            return reimbursement;
-
-
-        }catch (SQLException e){
-            e.printStackTrace();
-            return null;
-
-        }
     }
 
     public Reimbursement Deny(int id) {
+
         try(Connection connection = ConnectionFactory.getConnectionFactory().getConnection()){
 
             Reimbursement reimbursement = new Reimbursement();

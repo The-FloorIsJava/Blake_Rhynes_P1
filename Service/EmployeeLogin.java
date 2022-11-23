@@ -6,9 +6,12 @@ import java.util.List;
 
 public class EmployeeLogin {
 
-    private Model.EmployeeLogin employeeSession = null;
+    public Model.EmployeeLogin employeeSession = null; //changed to public to access in ReimbursementRequest Service
+
+    static String employee_role = null;
 
     private final EmployeeDao employeeDao;
+
 
     public EmployeeLogin(EmployeeDao employeeDao){
     this.employeeDao = employeeDao;
@@ -33,15 +36,18 @@ public class EmployeeLogin {
 
     }
 
-    public void login(String employee_role,String username, String password){
-        employeeSession = employeeDao.loginCheck(employee_role,username, password);
+    public void login(String employee_role, String username, String password){
+        employeeSession = employeeDao.loginCheck(employee_role, username, password);//employee_role,
+        EmployeeLogin.employee_role = employee_role;
     }
 
     public void logout(){
-employeeSession = null;
+        employeeSession = null;
     }
 
     public Model.EmployeeLogin getEmployeeSession(){
         return employeeSession;
     }
+
+
 }

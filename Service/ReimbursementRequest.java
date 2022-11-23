@@ -1,17 +1,23 @@
 package Service;
 
 import EmployeeDao.ReimbursementDao;
+import Model.EmployeeLogin;
 import Model.Reimbursement;
 
 import java.util.List;
 
-public class ReimbursementRequest {
+public class ReimbursementRequest extends EmployeeLogin{
+
+
 
     private final ReimbursementDao reimbursementDao;
 
     public ReimbursementRequest(ReimbursementDao reimbursementDao){
         this.reimbursementDao = reimbursementDao;
     }
+    EmployeeLogin myEmployeeLogin;
+
+
 
 List<Reimbursement> reimbursementRequests;
 
@@ -42,7 +48,7 @@ public Reimbursement getReimbursement(int id){
 //    }
 //}
     public Reimbursement managerApproval(int id) {
-        return reimbursementDao.Approve(id);
+            return reimbursementDao.Approve(id);
     }
 
 //    public void managerDenial(int id) {
@@ -54,7 +60,7 @@ public Reimbursement getReimbursement(int id){
 //        }
 //    }
     public Reimbursement managerDenial(int id) {
-        return reimbursementDao.Deny(id);
+            return reimbursementDao.Deny(id);
     }
 
 public List<Reimbursement> getAllRequests(){

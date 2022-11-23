@@ -13,6 +13,8 @@ import java.util.List;
 public class LoginController {
     EmployeeLogin eLogin;
 
+
+
     Javalin app;
 
     public LoginController(Javalin app) {
@@ -39,6 +41,8 @@ public class LoginController {
          Model.EmployeeLogin newEmployeeLogin = mapper.readValue(context.body(), Model.EmployeeLogin.class);
         Model.EmployeeLogin addedEmployee = eLogin.addEmployee(newEmployeeLogin);
         context.json(addedEmployee);
+
+
     }
     private void postAddStandardEmployee(Context context) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
@@ -56,7 +60,7 @@ public class LoginController {
     private void loginHandler(Context context) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         LoginCreds loginCreds = mapper.readValue(context.body(), LoginCreds.class);
-        eLogin.login(loginCreds.getEmployee_role(),loginCreds.getUsername(), loginCreds.getPassword());
+        eLogin.login(loginCreds.getEmployee_role(), loginCreds.getUsername(), loginCreds.getPassword());//loginCreds.getEmployee_role(),
         context.json("Successfully logged in");
     }
 

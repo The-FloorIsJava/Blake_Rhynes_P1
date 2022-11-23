@@ -2,17 +2,23 @@ package Controller;
 
 import EmployeeDao.ReimbursementDao;
 import Model.Reimbursement;
+import Service.EmployeeLogin;
 import Service.ReimbursementRequest;
+import Util.DTO.LoginCreds;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
+import org.postgresql.util.PSQLException;
 
 import java.util.List;
 
 public class ReimbursementController {
     ReimbursementRequest reimbursementRequest;
 
+    EmployeeLogin eLogin;
+
+    LoginCreds loginCreds;
     Javalin app;
     public ReimbursementController(Javalin app){
         reimbursementRequest = new ReimbursementRequest(new ReimbursementDao());
@@ -35,12 +41,12 @@ public class ReimbursementController {
         context.json(reimbursement);
     }
     private void managerApproval(Context context){
-        String id = context.pathParam("id");
-        reimbursementRequest.managerApproval(Integer.parseInt(id));
-        Reimbursement reimbursement = reimbursementRequest.getReimbursement(Integer.parseInt(id));
-        context.json(reimbursement);
+            String id = context.pathParam("id");
+            reimbursementRequest.managerApproval(Integer.parseInt(id));
+            Reimbursement reimbursement = reimbursementRequest.getReimbursement(Integer.parseInt(id));
+            context.json(reimbursement);
     }
-    private void managerDenial(Context context){
+    private void managerDenial(Context context)throws PSQLException {
         String id = context.pathParam("id");
         reimbursementRequest.managerDenial(Integer.parseInt(id));
         Reimbursement reimbursement = reimbursementRequest.getReimbursement(Integer.parseInt(id));

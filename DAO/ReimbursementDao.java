@@ -212,4 +212,43 @@ public class ReimbursementDao implements Crudable<Reimbursement> {
             return null;
         }
     }
+
+    public List<Reimbursement> findPersonalRequests(String username) {
+
+        try(Connection connection = ConnectionFactory.getConnectionFactory().getConnection()){
+
+            List<Reimbursement> reimbursements = new ArrayList<>();
+
+            String sql = "select * from reimbursement_ticket where username = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1,username);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if(!resultSet.next()){
+                throw new RuntimeException("Reimbursements for "+ username + " not found");
+            }
+
+            Reimbursement reimbursement = new Reimbursement();
+
+            reimbursement.setAmount(resultSet.getDouble("amount"));
+            reimbursement.setApprovalStatus(resultSet.getString("status"));
+            reimbursement.setDescription(resultSet.getString("description"));
+            reimbursement.setId(resultSet.getInt("id"));
+            reimbursement.setEmployee(resultSet.getString("employee"));
+
+            reimbursements.add(reimbursement);
+
+            return reimbursements;
+
+
+        }catch (SQLException e){
+            e.printStackTrace();
+            return null;
+
+        }
+    }
+
+
 }

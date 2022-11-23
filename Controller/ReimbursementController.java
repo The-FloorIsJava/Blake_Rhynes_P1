@@ -15,6 +15,8 @@ public class ReimbursementController {
     ReimbursementRequest reimbursementRequest;
     EmployeeLogin eLogin;
 
+    String noManager = "not a manager";
+
     Javalin app;
     public ReimbursementController(Javalin app, EmployeeLogin eLogin){
         this.eLogin = eLogin;
@@ -30,6 +32,7 @@ public class ReimbursementController {
         app.post("idApproval/{id}",this::managerApproval);
         app.post("idDenial/{id}",this::managerDenial);
         app.get("getPending",this::getPendingRequests);
+        app.get("personalReimbursements", this::getOwnRequests);
 
     }
     private void getSpecificReimbursement(Context context) {
@@ -37,6 +40,8 @@ public class ReimbursementController {
             String id = context.pathParam("id");
             Reimbursement reimbursement = reimbursementRequest.getReimbursement(Integer.parseInt(id));
             context.json(reimbursement);
+        }else {
+            context.json(noManager);
         }
     }
     private void managerApproval(Context context){
@@ -45,6 +50,8 @@ public class ReimbursementController {
             reimbursementRequest.managerApproval(Integer.parseInt(id));
             Reimbursement reimbursement = reimbursementRequest.getReimbursement(Integer.parseInt(id));
             context.json(reimbursement);
+        }else {
+            context.json(noManager);
         }
     }
     private void managerDenial(Context context) {
@@ -53,6 +60,8 @@ public class ReimbursementController {
             reimbursementRequest.managerDenial(Integer.parseInt(id));
             Reimbursement reimbursement = reimbursementRequest.getReimbursement(Integer.parseInt(id));
             context.json(reimbursement);
+        }else {
+            context.json(noManager);
         }
     }
 //    private void managerApproval(Context context) throws JsonProcessingException{
@@ -72,12 +81,16 @@ public class ReimbursementController {
         if (isManager()){
             List<Reimbursement> allRequests = reimbursementRequest.getAllRequests();
             context.json(allRequests);
+        }else {
+            context.json(noManager);
         }
     }
     private void getPendingRequests(Context context) {
         if (isManager()){
             List<Reimbursement> allPendingRequests = reimbursementRequest.getPendingRequests();
             context.json(allPendingRequests);
+        }else {
+            context.json(noManager);
         }
     }
 
@@ -87,12 +100,14 @@ public class ReimbursementController {
         reimbursementRequest.addRequest(reimbursement);
         context.json(reimbursement);
     }
-
-
-
-    public void helloHandler(Context ctx){
-        ctx.result("hello from the menu");
+    private void getOwnRequests(Context context) {
+        List<Reimbursement> allPendingRequests = reimbursementRequest.getPendingRequests();
+        context.json(allPendingRequests);
     }
+
+//    public void helloHandler(Context ctx){
+//        ctx.result("hello from the menu");
+//    }
 
     public boolean isManager(){
         if (eLogin.getEmployeeSession().getEmployee_role().equals("manager")){
@@ -102,6 +117,12 @@ public class ReimbursementController {
         }
 
     }
-
+    public boolean isCurrentUser(String username){
+        if(eLogin.getEmployeeSession().getEmployee_role().equals(username)){
+            return true;}
+                else{
+                    return false;
+                }
+            }
 
 }

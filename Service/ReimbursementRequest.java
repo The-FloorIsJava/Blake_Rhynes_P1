@@ -1,12 +1,12 @@
-package Service;
+    package Service;
 
-import EmployeeDao.ReimbursementDao;
-import Model.EmployeeLogin;
-import Model.Reimbursement;
+    import DAO.ReimbursementDao;
+    import Model.Employee;
+    import Model.Reimbursement;
 
-import java.util.List;
+    import java.util.List;
 
-public class ReimbursementRequest extends EmployeeLogin{
+    public class ReimbursementRequest extends Employee {
 
 
 
@@ -15,11 +15,9 @@ public class ReimbursementRequest extends EmployeeLogin{
     public ReimbursementRequest(ReimbursementDao reimbursementDao){
         this.reimbursementDao = reimbursementDao;
     }
-    EmployeeLogin myEmployeeLogin;
+    Employee myEmployee;
 
-
-
-List<Reimbursement> reimbursementRequests;
+    List<Reimbursement> reimbursementRequests;
 
 //public ReimbursementRequest(){
 //    reimbursementRequests = new ArrayList<>();
@@ -35,7 +33,7 @@ List<Reimbursement> reimbursementRequests;
     }
 
 
-public Reimbursement getReimbursement(int id){
+    public Reimbursement getReimbursement(int id){
 
     return reimbursementDao.findById(id);
 }
@@ -48,7 +46,7 @@ public Reimbursement getReimbursement(int id){
 //    }
 //}
     public Reimbursement managerApproval(int id) {
-            return reimbursementDao.Approve(id);
+            return reimbursementDao.approve(id);
     }
 
 //    public void managerDenial(int id) {
@@ -60,16 +58,15 @@ public Reimbursement getReimbursement(int id){
 //        }
 //    }
     public Reimbursement managerDenial(int id) {
-            return reimbursementDao.Deny(id);
+            return reimbursementDao.deny(id);
     }
 
-public List<Reimbursement> getAllRequests(){
+    public List<Reimbursement> getAllRequests(){
 
         return reimbursementDao.findAll();
-//    return reimbursementRequests;
 }
 
-public List<Reimbursement> getPendingRequests(){
+    public List<Reimbursement> getPendingRequests(){
         return reimbursementDao.findAllPending();
 }
 

@@ -1,14 +1,14 @@
 package Model;
 
-public class EmployeeLogin {
+public class Employee {
     private String username;
     private String employee_role;
     private String password;
 
-public EmployeeLogin(){
+public Employee(){
 
 }
-    public EmployeeLogin(String username, String employee_role, String password) {
+    public Employee(String username, String employee_role, String password) {
         this.username = username;
         this.employee_role = employee_role;
         this.password = password;

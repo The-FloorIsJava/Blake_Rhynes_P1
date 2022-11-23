@@ -1,6 +1,6 @@
 package Controller;
 
-import EmployeeDao.EmployeeDao;
+import Model.Employee;
 import Service.EmployeeLogin;
 import Util.DTO.LoginCreds;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -17,8 +17,9 @@ public class LoginController {
 
     Javalin app;
 
-    public LoginController(Javalin app) {
-        eLogin = new EmployeeLogin(new EmployeeDao());
+    public LoginController(Javalin app, EmployeeLogin eLogin) {
+        this.eLogin = eLogin;
+//        this.eLogin = new EmployeeLogin(new EmployeeDao(),ne);
         this.app = app;
     }
 
@@ -31,29 +32,29 @@ public class LoginController {
         app.post("addStandardEmployee",this::postAddStandardEmployee);
     }
     private void getAllEmployees(Context context) {
-        List<Model.EmployeeLogin> allEmployees = eLogin.getAllEmployeess();
+        List<Employee> allEmployees = eLogin.getAllEmployeess();
 //        similar as context.result, but the content type is json rather than text.
         context.json(allEmployees);
     }
 
     private void postAddEmployee(Context context) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-         Model.EmployeeLogin newEmployeeLogin = mapper.readValue(context.body(), Model.EmployeeLogin.class);
-        Model.EmployeeLogin addedEmployee = eLogin.addEmployee(newEmployeeLogin);
+         Employee newEmployee = mapper.readValue(context.body(), Employee.class);
+        Employee addedEmployee = eLogin.addEmployee(newEmployee);
         context.json(addedEmployee);
 
 
     }
     private void postAddStandardEmployee(Context context) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        Model.EmployeeLogin newEmployeeLogin = mapper.readValue(context.body(), Model.EmployeeLogin.class);
-        Model.EmployeeLogin addedEmployee = eLogin.addStandardEmployee(newEmployeeLogin);
+        Employee newEmployee = mapper.readValue(context.body(), Employee.class);
+        Employee addedEmployee = eLogin.addStandardEmployee(newEmployee);
         context.json(addedEmployee);
     }
 
     private void getSpecificEmployeeHandler(Context context) {
         String name = context.pathParam("username");
-        Model.EmployeeLogin employee = eLogin.getEmployee(name);
+        Employee employee = eLogin.getEmployee(name);
         context.json(employee);
     }
 

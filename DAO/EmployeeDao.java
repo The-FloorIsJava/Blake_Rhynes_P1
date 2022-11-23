@@ -1,6 +1,6 @@
-package EmployeeDao;
+package DAO;
 
-import Model.EmployeeLogin;
+import Model.Employee;
 import Util.ConnectionFactory;
 import Util.Interface.Crudable;
 
@@ -8,17 +8,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 //need to provide implementation
-public class EmployeeDao implements Crudable<EmployeeLogin> {
+public class EmployeeDao implements Crudable<Employee> {
     @Override
-    public EmployeeLogin create(EmployeeLogin newEmployeeLogin) {
+    public Employee create(Employee newEmployee) {
 
         try(Connection connection = ConnectionFactory.getConnectionFactory().getConnection()){
 
             String sql = "insert into login_information(employee_role, username, password) values ('manager',?,?) ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 //            preparedStatement.setString(1,newEmployeeLogin.getEmployee_role());
-            preparedStatement.setString(1,newEmployeeLogin.getUsername());
-            preparedStatement.setString(2,newEmployeeLogin.getPassword());
+            preparedStatement.setString(1, newEmployee.getUsername());
+            preparedStatement.setString(2, newEmployee.getPassword());
 
             int checkInsert = preparedStatement.executeUpdate();
 
@@ -26,7 +26,7 @@ public class EmployeeDao implements Crudable<EmployeeLogin> {
                 throw new RuntimeException("Employee not found");
             }
 
-            return newEmployeeLogin;
+            return newEmployee;
 
         }catch (SQLException e){
             e.printStackTrace();
@@ -36,14 +36,14 @@ public class EmployeeDao implements Crudable<EmployeeLogin> {
 
     }
 
-    public EmployeeLogin createEmployee(EmployeeLogin newEmployeeLogin) {
+    public Employee createEmployee(Employee newEmployee) {
 
         try(Connection connection = ConnectionFactory.getConnectionFactory().getConnection()){
 
             String sql = "insert into login_information(username, password) values (?,?) ";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,newEmployeeLogin.getUsername());
-            preparedStatement.setString(2,newEmployeeLogin.getPassword());
+            preparedStatement.setString(1, newEmployee.getUsername());
+            preparedStatement.setString(2, newEmployee.getPassword());
 
             int checkInsert = preparedStatement.executeUpdate();
 
@@ -51,7 +51,7 @@ public class EmployeeDao implements Crudable<EmployeeLogin> {
                 throw new RuntimeException("Employee not found");
             }
 
-            return newEmployeeLogin;
+            return newEmployee;
 
         }catch (SQLException e){
             e.printStackTrace();
@@ -63,26 +63,26 @@ public class EmployeeDao implements Crudable<EmployeeLogin> {
 
 
     @Override
-    public List<EmployeeLogin> findAll() {
+    public List<Employee> findAll() {
         try(Connection connection = ConnectionFactory.getConnectionFactory().getConnection()){
 
-            List<EmployeeLogin> employeeLogins = new ArrayList<>();
+            List<Employee> employees = new ArrayList<>();
 
             String sql = "select * from login_information";
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
 
             while (resultSet.next()){
-                EmployeeLogin employeeLogin = new EmployeeLogin();
+                Employee employee = new Employee();
 
-                employeeLogin.setEmployee_role(resultSet.getString("employee_role"));
-                employeeLogin.setUsername(resultSet.getString("username"));
-                employeeLogin.setPassword(resultSet.getString("password"));
+                employee.setEmployee_role(resultSet.getString("employee_role"));
+                employee.setUsername(resultSet.getString("username"));
+                employee.setPassword(resultSet.getString("password"));
 
-                employeeLogins.add(employeeLogin);
+                employees.add(employee);
 
             }
-            return employeeLogins;
+            return employees;
 
         }catch(SQLException e){
             e.printStackTrace();
@@ -91,12 +91,12 @@ public class EmployeeDao implements Crudable<EmployeeLogin> {
     }
 
     @Override
-    public EmployeeLogin findById(int id) {
+    public Employee findById(int id) {
         return null;
     }
 
     @Override
-    public boolean update(EmployeeLogin updatedEmployeeLogin) {
+    public boolean update(Employee updatedEmployee) {
         return false;
     }
 
@@ -106,7 +106,7 @@ public class EmployeeDao implements Crudable<EmployeeLogin> {
     }
     
 
-    public EmployeeLogin loginCheck(String employee_role, String username, String password){
+    public Employee loginCheck(String employee_role, String username, String password){
 
         try(Connection connection = ConnectionFactory.getConnectionFactory().getConnection()){
 
@@ -123,13 +123,13 @@ public class EmployeeDao implements Crudable<EmployeeLogin> {
                 throw new RuntimeException("Entered information for " + username + " was incorrect");
             }
 
-            EmployeeLogin employeeLogin = new EmployeeLogin();
+            Employee employee = new Employee();
 
-            employeeLogin.setUsername(resultSet.getString("username"));
-            employeeLogin.setPassword(resultSet.getString("password"));
-            employeeLogin.setEmployee_role(resultSet.getString("employee_role"));
+            employee.setUsername(resultSet.getString("username"));
+            employee.setPassword(resultSet.getString("password"));
+            employee.setEmployee_role(resultSet.getString("employee_role"));
 
-            return employeeLogin;
+            return employee;
 
         }catch (SQLException e){
             e.printStackTrace();

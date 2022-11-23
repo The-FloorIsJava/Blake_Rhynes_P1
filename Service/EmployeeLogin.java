@@ -1,12 +1,13 @@
 package Service;
 
-import EmployeeDao.EmployeeDao;
+import DAO.EmployeeDao;
+import Model.Employee;
 
 import java.util.List;
 
 public class EmployeeLogin {
 
-    public Model.EmployeeLogin employeeSession = null; //changed to public to access in ReimbursementRequest Service
+    public Employee employeeSession = null;
 
     static String employee_role = null;
 
@@ -17,18 +18,18 @@ public class EmployeeLogin {
     this.employeeDao = employeeDao;
     }
 
-    public Model.EmployeeLogin addEmployee(Model.EmployeeLogin employeeLogin){
-        return employeeDao.create(employeeLogin);
+    public Employee addEmployee(Employee employee){
+        return employeeDao.create(employee);
     }
-    public Model.EmployeeLogin addStandardEmployee(Model.EmployeeLogin employeeLogin){
-        return employeeDao.createEmployee(employeeLogin);
+    public Employee addStandardEmployee(Employee employee){
+        return employeeDao.createEmployee(employee);
     }
 
 
-    public List<Model.EmployeeLogin> getAllEmployeess(){
+    public List<Employee> getAllEmployeess(){
         return employeeDao.findAll();
     }
-    public Model.EmployeeLogin getEmployee(String username){
+    public Employee getEmployee(String username){
         return null;
     }
 
@@ -37,7 +38,7 @@ public class EmployeeLogin {
     }
 
     public void login(String employee_role, String username, String password){
-        employeeSession = employeeDao.loginCheck(employee_role, username, password);//employee_role,
+        employeeSession = employeeDao.loginCheck(employee_role, username, password);
         EmployeeLogin.employee_role = employee_role;
     }
 
@@ -45,7 +46,7 @@ public class EmployeeLogin {
         employeeSession = null;
     }
 
-    public Model.EmployeeLogin getEmployeeSession(){
+    public Employee getEmployeeSession(){
         return employeeSession;
     }
 

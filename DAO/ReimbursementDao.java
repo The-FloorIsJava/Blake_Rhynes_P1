@@ -1,4 +1,4 @@
-package EmployeeDao;
+package DAO;
 
 import Model.Reimbursement;
 import Util.ConnectionFactory;
@@ -101,7 +101,7 @@ public class ReimbursementDao implements Crudable<Reimbursement> {
 
         }
     }
-    public Reimbursement Approve(int id){
+    public Reimbursement approve(int id){
 
 
 
@@ -137,7 +137,7 @@ public class ReimbursementDao implements Crudable<Reimbursement> {
             }
     }
 
-    public Reimbursement Deny(int id) {
+    public Reimbursement deny(int id) {
 
         try(Connection connection = ConnectionFactory.getConnectionFactory().getConnection()){
 

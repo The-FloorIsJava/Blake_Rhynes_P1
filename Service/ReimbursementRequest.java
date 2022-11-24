@@ -28,6 +28,10 @@
 
     return reimbursementDao.findById(id);
 }
+        public Reimbursement getReimbursement(String name){
+
+            return reimbursementDao.findPersonalRequests(name);
+        }
 
     public Reimbursement managerApproval(int id) {
             return reimbursementDao.approve(id);
@@ -46,9 +50,9 @@
         return reimbursementDao.findAllPending();
 }
 
-    public List<Reimbursement> getPersonalRequests(String username){
-        return reimbursementDao.findPersonalRequests(username);
-    }
+//    public Reimbursement getPersonalRequests(String username){
+//        return reimbursementDao.findPersonalRequests(username);
+//    }
 
 
 }

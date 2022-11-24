@@ -32,7 +32,7 @@ public class ReimbursementController {
         app.post("idApproval/{id}",this::managerApproval);
         app.post("idDenial/{id}",this::managerDenial);
         app.get("getPending",this::getPendingRequests);
-        app.get("personalReimbursements", this::getOwnRequests);
+        app.get("personalReimbursements/{name}", this::getOwnRequests);
 
     }
     private void getSpecificReimbursement(Context context) {
@@ -101,8 +101,12 @@ public class ReimbursementController {
         context.json(reimbursement);
     }
     private void getOwnRequests(Context context) {
-        List<Reimbursement> allPendingRequests = reimbursementRequest.getPendingRequests();
-        context.json(allPendingRequests);
+//        if (isCurrentUser()){
+        String name = context.pathParam("name");
+        Reimbursement reimbursement = reimbursementRequest.getReimbursement(name);
+        context.json(reimbursement);
+//        }
+
     }
 
 //    public void helloHandler(Context ctx){
@@ -117,8 +121,8 @@ public class ReimbursementController {
         }
 
     }
-    public boolean isCurrentUser(String username){
-        if(eLogin.getEmployeeSession().getEmployee_role().equals(username)){
+    public boolean isCurrentUser(){
+        if(eLogin.getEmployeeSession().getUsername().equals(reimbursementRequest.getUsername())){
             return true;}
                 else{
                     return false;

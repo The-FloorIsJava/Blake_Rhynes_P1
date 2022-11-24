@@ -213,34 +213,29 @@ public class ReimbursementDao implements Crudable<Reimbursement> {
         }
     }
 
-    public List<Reimbursement> findPersonalRequests(String username) {
-
+    public Reimbursement findPersonalRequests(String username) {
         try(Connection connection = ConnectionFactory.getConnectionFactory().getConnection()){
-
-            List<Reimbursement> reimbursements = new ArrayList<>();
-
-            String sql = "select * from reimbursement_ticket where username = ?";
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-
-            preparedStatement.setString(1,username);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if(!resultSet.next()){
-                throw new RuntimeException("Reimbursements for "+ username + " not found");
-            }
 
             Reimbursement reimbursement = new Reimbursement();
 
+            String sql = "select * from reimbursement_ticket inner join login_information on reimbursement_ticket.employee = login_information.username" +
+                    " where username  = ?";//need to do a joins statement
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1,username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if(!resultSet.next()){
+                throw new RuntimeException("Reimbursement "+ username + " not found");
+            }
+
             reimbursement.setAmount(resultSet.getDouble("amount"));
-            reimbursement.setApprovalStatus(resultSet.getString("status"));
+            reimbursement.setApprovalStatus(resultSet.getString("status"));//take a look at the column name
             reimbursement.setDescription(resultSet.getString("description"));
             reimbursement.setId(resultSet.getInt("id"));
             reimbursement.setEmployee(resultSet.getString("employee"));
 
-            reimbursements.add(reimbursement);
-
-            return reimbursements;
+            return reimbursement;
 
 
         }catch (SQLException e){

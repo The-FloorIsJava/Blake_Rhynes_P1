@@ -213,13 +213,15 @@ public class ReimbursementDao implements Crudable<Reimbursement> {
         }
     }
 
-    public Reimbursement findPersonalRequests(String username) {
+    public List<Reimbursement> findPersonalRequests(String username) {
         try(Connection connection = ConnectionFactory.getConnectionFactory().getConnection()){
 
-            Reimbursement reimbursement = new Reimbursement();
+            List<Reimbursement> reimbursements = new ArrayList<>();
 
-            String sql = "select * from reimbursement_ticket inner join login_information on reimbursement_ticket.employee = login_information.username" +
-                    " where username  = ?";//need to do a joins statement
+
+            String sql = "select * from reimbursement_ticket" +
+                    " inner join login_information on reimbursement_ticket.employee = login_information.username" +
+                    " where username  = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.setString(1,username);
@@ -228,6 +230,8 @@ public class ReimbursementDao implements Crudable<Reimbursement> {
             if(!resultSet.next()){
                 throw new RuntimeException("Reimbursement "+ username + " not found");
             }
+            Reimbursement reimbursement = new Reimbursement();
+
 
             reimbursement.setAmount(resultSet.getDouble("amount"));
             reimbursement.setApprovalStatus(resultSet.getString("status"));//take a look at the column name
@@ -235,7 +239,9 @@ public class ReimbursementDao implements Crudable<Reimbursement> {
             reimbursement.setId(resultSet.getInt("id"));
             reimbursement.setEmployee(resultSet.getString("employee"));
 
-            return reimbursement;
+            reimbursements.add(reimbursement);
+
+            return reimbursements;
 
 
         }catch (SQLException e){

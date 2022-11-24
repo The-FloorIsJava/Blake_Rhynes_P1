@@ -103,8 +103,9 @@ public class ReimbursementController {
     private void getOwnRequests(Context context) {
 //        if (isCurrentUser()){
         String name = context.pathParam("name");
-        Reimbursement reimbursement = reimbursementRequest.getReimbursement(name);
-        context.json(reimbursement);
+
+//        List<Reimbursement> reimbursement = reimbursementRequest.getReimbursement();
+        context.json(reimbursementRequest.getReimbursement(name));
 //        }
 
     }
@@ -122,11 +123,14 @@ public class ReimbursementController {
 
     }
     public boolean isCurrentUser(){
-        if(eLogin.getEmployeeSession().getUsername().equals(reimbursementRequest.getUsername())){
-            return true;}
-                else{
-                    return false;
-                }
+        if(eLogin.getEmployeeSession().getUsername().equals(
+
+                reimbursementRequest.getUsername()
+        )){
+            return true;
+        }else{
+            return false;
+        }
             }
 
 }

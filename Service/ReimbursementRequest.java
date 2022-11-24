@@ -28,7 +28,7 @@
 
     return reimbursementDao.findById(id);
 }
-        public Reimbursement getReimbursement(String name){
+        public List<Reimbursement> getReimbursement(String name){
 
             return reimbursementDao.findPersonalRequests(name);
         }

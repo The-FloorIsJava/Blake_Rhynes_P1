@@ -19,7 +19,6 @@ public class LoginController {
 
     public LoginController(Javalin app, EmployeeLogin eLogin) {
         this.eLogin = eLogin;
-//        this.eLogin = new EmployeeLogin(new EmployeeDao(),ne);
         this.app = app;
     }
 
@@ -33,7 +32,6 @@ public class LoginController {
     }
     private void getAllEmployees(Context context) {
         List<Employee> allEmployees = eLogin.getAllEmployeess();
-//        similar as context.result, but the content type is json rather than text.
         context.json(allEmployees);
     }
 
@@ -61,7 +59,7 @@ public class LoginController {
     private void loginHandler(Context context) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         LoginCreds loginCreds = mapper.readValue(context.body(), LoginCreds.class);
-        eLogin.login(loginCreds.getEmployee_role(), loginCreds.getUsername(), loginCreds.getPassword());//loginCreds.getEmployee_role(),
+        eLogin.login(loginCreds.getEmployee_role(), loginCreds.getUsername(), loginCreds.getPassword());
         context.json("Successfully logged in");
     }
 

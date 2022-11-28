@@ -11,7 +11,7 @@ import java.util.List;
 
 
 public class ReimbursementDao implements Crudable<Reimbursement> {
-//    EmployeeLogin eLogin = new EmployeeLogin();
+
 
 
     @Override
@@ -220,8 +220,7 @@ public class ReimbursementDao implements Crudable<Reimbursement> {
 
 
             String sql = "select * from reimbursement_ticket" +
-                    " inner join login_information on reimbursement_ticket.employee = login_information.username" +
-                    " where username  = ?";
+                    " where employee  = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.setString(1,username);
@@ -232,9 +231,8 @@ public class ReimbursementDao implements Crudable<Reimbursement> {
             }
             Reimbursement reimbursement = new Reimbursement();
 
-
             reimbursement.setAmount(resultSet.getDouble("amount"));
-            reimbursement.setApprovalStatus(resultSet.getString("status"));//take a look at the column name
+            reimbursement.setApprovalStatus(resultSet.getString("status"));
             reimbursement.setDescription(resultSet.getString("description"));
             reimbursement.setId(resultSet.getInt("id"));
             reimbursement.setEmployee(resultSet.getString("employee"));

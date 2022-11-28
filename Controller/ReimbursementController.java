@@ -64,18 +64,6 @@ public class ReimbursementController {
             context.json(noManager);
         }
     }
-//    private void managerApproval(Context context) throws JsonProcessingException{
-//        ObjectMapper mapper = new ObjectMapper();
-//        Reimbursement reimbursement = mapper.readValue(context.body(), Reimbursement.class);
-//        reimbursementRequest.managerApproval(reimbursement.getId());
-//        context.json(reimbursement);
-//    }
-//    private void managerDenial(Context context)throws JsonProcessingException{
-//        ObjectMapper mapper = new ObjectMapper();
-//        Reimbursement reimbursement = mapper.readValue(context.body(), Reimbursement.class);
-//        reimbursementRequest.managerDenial(reimbursement.getId());
-//        context.json(reimbursement);
-//    }
 
     private void getAllReimbursements(Context context) {
         if (isManager()){
@@ -101,18 +89,12 @@ public class ReimbursementController {
         context.json(reimbursement);
     }
     private void getOwnRequests(Context context) {
-//        if (isCurrentUser()){
         String name = context.pathParam("name");
-
-//        List<Reimbursement> reimbursement = reimbursementRequest.getReimbursement();
-        context.json(reimbursementRequest.getReimbursement(name));
-//        }
+        reimbursementRequest.getReimbursement(name);
+        List<Reimbursement> reimbursement = reimbursementRequest.getReimbursement(name);
+        context.json(reimbursement);
 
     }
-
-//    public void helloHandler(Context ctx){
-//        ctx.result("hello from the menu");
-//    }
 
     public boolean isManager(){
         if (eLogin.getEmployeeSession().getEmployee_role().equals("manager")){
